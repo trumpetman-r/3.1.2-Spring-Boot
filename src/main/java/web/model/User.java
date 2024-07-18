@@ -1,6 +1,10 @@
 package web.model;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "users")
@@ -13,7 +17,6 @@ public class User {
     private String name;
     private String email;
 
-    // Getter and Setter for 'id'
     public Long getId() {
         return id;
     }
@@ -22,7 +25,6 @@ public class User {
         this.id = id;
     }
 
-    // Getter and Setter for 'name'
     public String getName() {
         return name;
     }

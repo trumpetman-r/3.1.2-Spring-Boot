@@ -11,43 +11,47 @@ import web.service.UserService;
 @RequestMapping("/users")
 public class UserController {
 
+    private final UserService userService;
+
     @Autowired
-    private UserService userService;
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping
-    public String listUsers(Model model) {
-        model.addAttribute("users", userService.findAll());
+    public String showUserList(Model model) {
+        model.addAttribute("users", userService.getAllUsers());
         return "users";
     }
 
     @GetMapping("/new")
-    public String showCreateForm(Model model) {
+    public String showCreateUserForm(Model model) {
         model.addAttribute("user", new User());
         return "user-form";
     }
 
     @PostMapping
     public String createUser(@ModelAttribute("user") User user) {
-        userService.save(user);
+        userService.saveUser(user);
         return "redirect:/users";
     }
 
     @GetMapping("/edit")
-    public String showEditForm(@RequestParam("id") Long id, Model model) {
-        User user = userService.findById(id);
+    public String showEditUserForm(@RequestParam("id") Long id, Model model) {
+        User user = userService.getUserById(id);
         model.addAttribute("user", user);
         return "user-form";
     }
 
     @PostMapping("/update")
     public String updateUser(@ModelAttribute("user") User user) {
-        userService.update(user);
+        userService.updateUser(user);
         return "redirect:/users";
     }
 
     @GetMapping("/delete")
     public String deleteUser(@RequestParam("id") Long id) {
-        userService.delete(id);
+        userService.deleteUser(id);
         return "redirect:/users";
     }
 }
