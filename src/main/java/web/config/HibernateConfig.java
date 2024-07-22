@@ -7,9 +7,9 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import javax.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.boot.jdbc.DataSourceBuilder;
 
 import java.util.Properties;
 
@@ -32,13 +32,12 @@ public class HibernateConfig {
 
     @Bean
     public DataSource dataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:8800/testdb");
-        dataSource.setUsername("root_r");
-        dataSource.setPassword("root_r");
-
-        return dataSource;
+        return DataSourceBuilder.create()
+                .driverClassName("com.mysql.cj.jdbc.Driver")
+                .url("jdbc:mysql://localhost:8800/testdb")
+                .username("root_r")
+                .password("root_r")
+                .build();
     }
 
     @Bean
@@ -52,7 +51,7 @@ public class HibernateConfig {
     private Properties hibernateProperties() {
         Properties properties = new Properties();
         properties.setProperty("hibernate.hbm2ddl.auto", "update");
-        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
+        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
 
         return properties;
     }
